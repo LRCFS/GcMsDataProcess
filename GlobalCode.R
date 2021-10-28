@@ -44,6 +44,7 @@ library(hyperSpec)
 #####                Folder & Files                     #####
 #############################################################
 
+
 # set extension and Citation
 # extensionTXT <- ".TXT"
 # extensionBIB <- ".bib"
