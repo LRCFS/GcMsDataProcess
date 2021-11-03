@@ -12,8 +12,12 @@ Metadata$Date <- str_sub(Metadata$DataName,1,6)
 # Load GC results
 filenameGcData <- list.files(GcData.dir, pattern=extensionCSV, full.names=TRUE)
 
-GcResults <- read.csv(filenameGcData, header = TRUE, encoding = "UTF-8")
-names(GcResults)[1] <- "DataName"
+
+GcResults<- do.call(rbind, lapply(filenameGcData, function(x) 
+  transform(read.csv(x), File = basename(x))))
+
+# GcResults <- read.csv(filenameGcData, header = TRUE, encoding = "UTF-8")
+# names(GcResults)[1] <- "DataName"
 
 # join GC results to metadata
 CombinedResults <- full_join(Metadata,GcResults)
