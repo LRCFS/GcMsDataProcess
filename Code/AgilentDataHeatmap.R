@@ -93,9 +93,9 @@ DataHeatMap <- mutate_all(DataHeatMap, function(x) as.numeric(as.character(x)))
 DataHeatMap$RTime <- DataHeatMap$RTime *60
 
 #plot figure including all data
-p <- ggplot(DataHeatMap, aes(RTime, Mass))+
-  geom_tile(aes(fill = Intensity))
-show(p)
+# p <- ggplot(DataHeatMap, aes(RTime, Mass))+
+#   geom_tile(aes(fill = Intensity))
+# show(p)
 
 #########################################################
 ####### filter data according to threshold value  #######
@@ -126,9 +126,9 @@ DataTicRentention <- DataHeatMap %>%
   distinct()
 
 # plot figure including all data
-p <- ggplot(DataTicRentention, aes(RTime, TIC))+
-  geom_line()
-show(p)
+# p <- ggplot(DataTicRentention, aes(RTime, TIC))+
+#   geom_line()
+# show(p)
 
 ########################################################
 #######    baseline corrections using hyperSpec  #######
@@ -147,12 +147,12 @@ temp_hyper_0 <- new ("hyperSpec", wavelength = file [,1], spc = t (file [, -1]))
 bl <- spc.rubberband (temp_hyper_0 [,, 185 ~ 3000], noise = 3000, df = 20)
 
 # plot the background to check fit to data
-plot(bl)
-plot(temp_hyper_0,add=TRUE)
+# plot(bl)
+# plot(temp_hyper_0,add=TRUE)
 
 # subtract the background to the original data and plot to check
 temp_hyper_1 <- temp_hyper_0-bl
-plot(temp_hyper_1, plot.args = list (ylim = c(0, 4500)))
+# plot(temp_hyper_1, plot.args = list (ylim = c(0, 4500)))
 
 # export the data in temp folder
 write.txt.long(temp_hyper_1, file = paste0(TempData.dir, "temp.txt"))
@@ -171,9 +171,9 @@ PeakIS <- SignalMinusBg %>%
   filter( between(RTime, 400, 405) )
 
 # plot figure including all data
-p <- ggplot(PeakIS, aes(RTime, TIC))+
-  geom_line()
-show(p)
+# p <- ggplot(PeakIS, aes(RTime, TIC))+
+#   geom_line()
+# show(p)
 
 idIS <- order(PeakIS$RTime)
 I.S.PA <- sum(diff(PeakIS$RTime[idIS])*rollmean(PeakIS$TIC[idIS],2))
@@ -185,9 +185,9 @@ PeakEtizolam <- SignalMinusBg %>%
   filter( between(RTime, 645, 670) )
 
 # plot figure including all data
-p <- ggplot(PeakEtizolam, aes(RTime, TIC))+
-  geom_line()
-show(p)
+# p <- ggplot(PeakEtizolam, aes(RTime, TIC))+
+#   geom_line()
+# show(p)
 
 idEti <- order(PeakEtizolam$RTime)
 PA <- sum(diff(PeakEtizolam$RTime[idEti])*rollmean(PeakEtizolam$TIC[idEti],2))
@@ -197,3 +197,4 @@ Results <-data.frame(DataName,PA,I.S.PA)
 write.table(Results, file=paste0(GcData.dir,sprintf("%s.csv",DataName)), sep = ",", row.names = FALSE)
 
 }
+
