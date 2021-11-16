@@ -14,9 +14,6 @@ filenameGcData <- list.files(GcData.dir, pattern=extensionCSV, full.names=TRUE)
 
 GcResults <- do.call(rbind, lapply(filenameGcData, function(x) transform(read.csv(x), File=basename(x))))
 
-GcResults<- do.call(rbind, lapply(filenameGcData, function(x) 
-  transform(read.csv(x), File = basename(x))))
-
 # GcResults <- read.csv(filenameGcData, header = TRUE, encoding = "UTF-8")
 # names(GcResults)[1] <- "DataName"
 
@@ -27,7 +24,7 @@ CombinedResults <- full_join(Metadata,GcResults)
 CombinedResults$ratio <- CombinedResults$PA/CombinedResults$I.S.PA
 
 # calibration range
-calibration <- c("25","50","75","100","150","200", "250")
+calibration <- c("25","50","75","100","150","200","250")
 #convert to a dataframe
 calibration <- as.data.frame(calibration)
 calibration$calibration <- as.numeric(calibration$calibration)
@@ -54,8 +51,13 @@ QuadraticValues <- as.data.frame(QuadraticValues)
 # only the positive part of the equation is considered
 CombinedResults$ValuesPositive <- (((QuadraticValues$QuadraticValues[2])^2 + 4*QuadraticValues$QuadraticValues[3]*(CombinedResults$ratio-QuadraticValues$QuadraticValues[1]))^(1/2)-QuadraticValues$QuadraticValues[2])/(2*QuadraticValues$QuadraticValues[3])
 
-# to run only for the first time an export needs to be created, to be commented afterward or all saved data will be overwritten.
-# write.table(CombinedResults,file = paste0(Results.dir,"GCMSResultsTest.csv"),  sep = ",", row.names = F)
+#Add columns to account for dilution, convert to mg and calculate total etizolam in sample
+CombinedResults$CorrectedConcentration <- CombinedResults$ValuesPositive * CombinedResults$Dilution
+CombinedResults$ConcentrationMg <- CombinedResults$CorrectedConcentration /1000
+CombinedResults$SampleTotal <- CombinedResults$ConcentrationMg * CombinedResults$Volume
+
+#to run only for the first time an export needs to be created, to be commented afterward or all saved data will be overwritten.
+#write.table(CombinedResults,file = paste0(Results.dir,"GCMSResultsConcentrations.csv"),  sep = ",", row.names = F)
 
 # Load already processed data
 filenameData <- list.files(Results.dir, pattern=extensionCSV, full.names=TRUE)
@@ -64,5 +66,6 @@ ProcessedData <- read.csv(filenameData, sep=",", header=TRUE)
 # Combined the existing results to the new one
 CombinedData <- rbind(ProcessedData,CombinedResults)
 
-write.table(CombinedData,file = paste0(Results.dir,"GCMSResults.csv"),  sep = ",", row.names = F)
 
+
+write.table(CombinedData,file = paste0(Results.dir,"GCMSResultsConcentrations.csv"),  sep = ",", row.names = F)
