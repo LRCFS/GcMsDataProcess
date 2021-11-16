@@ -14,6 +14,9 @@ filenameGcData <- list.files(GcData.dir, pattern=extensionCSV, full.names=TRUE)
 
 GcResults <- do.call(rbind, lapply(filenameGcData, function(x) transform(read.csv(x), File=basename(x))))
 
+GcResults<- do.call(rbind, lapply(filenameGcData, function(x) 
+  transform(read.csv(x), File = basename(x))))
+
 # GcResults <- read.csv(filenameGcData, header = TRUE, encoding = "UTF-8")
 # names(GcResults)[1] <- "DataName"
 

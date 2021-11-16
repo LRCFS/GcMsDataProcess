@@ -5,7 +5,7 @@
 #####              Run Global Code in first instance            #####
 #####################################################################
 # Load Metadata files
-filenameGcDataConverterMs <- list.files(GcDataConverterMs.dir, full.names=TRUE)
+filenameGcDataConverterMs <- list.files(GcDataConverterMs.dir, extensionMS1, full.names=TRUE)
 
 for (file in filenameGcDataConverterMs) {
 
