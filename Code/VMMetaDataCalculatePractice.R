@@ -56,7 +56,7 @@ CombinedResults$CorrectedConcentration <- CombinedResults$ValuesPositive * Combi
 CombinedResults$ConcentrationMg <- CombinedResults$CorrectedConcentration /1000
 CombinedResults$SampleTotal <- CombinedResults$ConcentrationMg * CombinedResults$Volume
 
-# If a tablet or powder calculate Etizolam in total sample
+# If a tablet or powder calculate % Etizolam in total sample
 CombinedResults$EtizolamPercentage <- NA
 for (i in 1:nrow(Metadata)) {
   a <- Metadata[i, 2]}
