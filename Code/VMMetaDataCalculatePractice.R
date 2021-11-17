@@ -2,7 +2,7 @@
 #####              Run Global Code in first instance            #####
 #####################################################################
 # Load Metadata files
-filenameMetadata <- list.files(Metadata.dir, pattern=extensionXLSX, full.names=TRUE)
+filenameMetadata <- list.files(Metadata.dir, pattern=extensionXLSX, full.names=FALSE)
 
 Metadata <- read_xlsx(filenameMetadata)
 
@@ -56,24 +56,17 @@ CombinedResults$CorrectedConcentration <- CombinedResults$ValuesPositive * Combi
 CombinedResults$ConcentrationMg <- CombinedResults$CorrectedConcentration /1000
 CombinedResults$SampleTotal <- CombinedResults$ConcentrationMg * CombinedResults$Volume
 
-# If a tablet or powder calculate % Etizolam in total sample
+# If a tablet or powder calculate % Etizolam in total sample and total Etizolam (in mg) in original Tablet/Powder
 CombinedResults$EtizolamPercentage <- NA
-for (i in 1:nrow(Metadata)) {
-  a <- Metadata[i, 2]}
-  if (a == "Powder" | a== "Tablet") { CombinedResults$EtizolamPercentage <- (CombinedResults$SampleTotal/CombinedResults$QuantWeight)*100
-  i <- i+1
-  }
-
-# Calulate Etizolam in total tablet/powder weight
-
-   CombinedResults$TotalEtizolam <- NA
-  for (i in 1:nrow(Metadata)) 
-    a <- Metadata[i, 2]
-    if (a == "Powder" | a== "Tablet") { CombinedResults$TotalEtizolam <- (CombinedResults$TotalWeight/100)*CombinedResults$EtizolamPercentage
+for (i in 1:nrow(CombinedResults)) {
+  a <-  CombinedResults[i,2]
+  if (a == "Powder" | a == "Tablet") {
+    CombinedResults$EtizolamPercentage[i] <- (CombinedResults$SampleTotal[i]/CombinedResults$QuantWeight[i])*100
+    CombinedResults$TotalEtizolam <- (CombinedResults$TotalWeight/100)*CombinedResults$EtizolamPercentage
     i <- i+1
-    }
+  } 
   
-
+}
 
 
 #to run only for the first time an export needs to be created, to be commented afterward or all saved data will be overwritten.

@@ -54,6 +54,24 @@ QuadraticValues <- as.data.frame(QuadraticValues)
 # only the positive part of the equation is considered
 CombinedResults$ValuesPositive <- (((QuadraticValues$QuadraticValues[2])^2 + 4*QuadraticValues$QuadraticValues[3]*(CombinedResults$ratio-QuadraticValues$QuadraticValues[1]))^(1/2)-QuadraticValues$QuadraticValues[2])/(2*QuadraticValues$QuadraticValues[3])
 
+#Add columns to account for dilution, convert to mg and calculate total etizolam in sample 
+CombinedResults$CorrectedConcentration <- CombinedResults$ValuesPositive * CombinedResults$Dilution
+CombinedResults$ConcentrationMg <- CombinedResults$CorrectedConcentration /1000
+CombinedResults$SampleTotal <- CombinedResults$ConcentrationMg * CombinedResults$Volume
+
+# If a tablet or powder calculate % Etizolam in total sample and total Etizolam (in mg) in original Tablet/Powder
+CombinedResults$EtizolamPercentage <- NA
+for (i in 1:nrow(CombinedResults)) {
+  a <-  CombinedResults[i,2]
+  if (a == "Powder" | a == "Tablet") {
+    CombinedResults$EtizolamPercentage[i] <- (CombinedResults$SampleTotal[i]/CombinedResults$QuantWeight[i])*100
+    CombinedResults$TotalEtizolam <- (CombinedResults$TotalWeight/100)*CombinedResults$EtizolamPercentage
+    i <- i+1
+  } 
+  
+}
+
+
 # to run only for the first time an export needs to be created, to be commented afterward or all saved data will be overwritten.
 # write.table(CombinedResults,file = paste0(Results.dir,"GCMSResultsTest.csv"),  sep = ",", row.names = F)
 
