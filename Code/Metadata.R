@@ -27,7 +27,7 @@ CombinedResults <- full_join(Metadata,GcResults)
 CombinedResults$ratio <- CombinedResults$PA/CombinedResults$I.S.PA
 
 # calibration range
-calibration <- c("25","50","75","100","150","200", "250")
+calibration <- c("25","50","75","100","150","200","250")
 #convert to a dataframe
 calibration <- as.data.frame(calibration)
 calibration$calibration <- as.numeric(calibration$calibration)
@@ -61,6 +61,7 @@ CombinedResults$SampleTotal <- CombinedResults$ConcentrationMg * CombinedResults
 
 # If a tablet or powder calculate % Etizolam in total sample and total Etizolam (in mg) in original Tablet/Powder
 CombinedResults$EtizolamPercentage <- NA
+CombinedResults$TotalEtizolam <- NA
 for (i in 1:nrow(CombinedResults)) {
   a <-  CombinedResults[i,2]
   if (a == "Powder" | a == "Tablet") {
@@ -73,7 +74,7 @@ for (i in 1:nrow(CombinedResults)) {
 
 
 # to run only for the first time an export needs to be created, to be commented afterward or all saved data will be overwritten.
-# write.table(CombinedResults,file = paste0(Results.dir,"GCMSResultsTest.csv"),  sep = ",", row.names = F)
+# write.table(CombinedResults,file = paste0(Results.dir,"GCMSResults.csv"),  sep = ",", row.names = F)
 
 # Load already processed data
 filenameData <- list.files(Results.dir, pattern=extensionCSV, full.names=TRUE)
