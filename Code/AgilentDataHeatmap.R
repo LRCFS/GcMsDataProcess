@@ -168,7 +168,7 @@ names(SignalMinusBg)[2] <- "TIC"
 #####             Internal standard Peak Area             ######
 ################################################################
 PeakIS <- SignalMinusBg %>%
-  filter( between(RTime, 400, 405) )
+  filter( between(RTime, 398, 403) )
 
 # plot figure including all data
 # p <- ggplot(PeakIS, aes(RTime, TIC))+
@@ -182,7 +182,7 @@ I.S.PA <- sum(diff(PeakIS$RTime[idIS])*rollmean(PeakIS$TIC[idIS],2))
 #####                 Etizolam Peak Area                  ######
 ################################################################
 PeakEtizolam <- SignalMinusBg %>%
-  filter( between(RTime, 645, 670) )
+  filter( between(RTime, 608, 643) )
 
 # plot figure including all data
 # p <- ggplot(PeakEtizolam, aes(RTime, TIC))+
