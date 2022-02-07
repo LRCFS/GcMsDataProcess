@@ -5,23 +5,97 @@
 #####              Run Global Code in first instance            #####
 #####################################################################
 # Load Metadata files
-filenameGcData <- list.files(GcDataConvertedRcode.dir, extensionCSV, full.names=TRUE)
+filenameGcDataConverterMs <- list.files(GcDataConverterMs.dir, extensionMS1, full.names=TRUE)
 
-for (file in filenameGcData) {
-  GcDataName <- gsub(extensionMS1, "", file)
-  
-  # for testing code on a single file (first on list) in filenameGcDataConverterMs
-  #GCDataName <- gsub(extensionCSV, "", filenameGcData[2])
-  
-  GcDataName <- gsub(".*/", "", GcDataName)
+for (file in filenameGcDataConverterMs) {
 
-  # for testing code on a single file (first on list) in filenameGcDataConverterMs
-  #GcDataCodeOrdered <- read.csv2(filenameGcData[2], sep = ",", header = TRUE)
-  
-  GcDataCodeOrdered <- read.csv2(file, sep = ",", header = TRUE)
-  
-  GcDataCodeOrdered <- mutate_all(GcDataCodeOrdered, function(x) as.numeric(as.character(x)))
-  
+DataName <- gsub(extensionMS1, "", file)
+DataName <- gsub(".*/", "", DataName)
+
+#####################################################################
+#####  re-organise converted data from  Proteo Wizard MsConvert #####
+#####################################################################
+GcDataConverter <- read.csv2(file, sep = "\t", header = FALSE)
+
+temp_data_0 <- strsplit(as.character(GcDataConverter$V1),' ') 
+#do.call(rbind, temp_data_0)
+
+temp_data_1 <-data.frame(GcDataConverter,do.call(rbind,temp_data_0))
+# remove rows containing "H"
+temp_data_1 <- temp_data_1 %>% 
+  filter(!str_detect(V1, 'H'))
+
+# remove rows containing "NativeID"  
+temp_data_1 <- temp_data_1 %>% 
+  filter(!str_detect(V2, 'NativeID'))
+
+# remove rows containing "BPI"
+temp_data_1 <- temp_data_1 %>% 
+  filter(!str_detect(V2, 'BPI'))
+
+# remove rows containing "BPM"
+temp_data_1 <- temp_data_1 %>% 
+  filter(!str_detect(V2, 'BPM'))
+
+# replace blank with "NA"
+temp_data_1$V3 <- as.numeric(temp_data_1$V3)
+
+# fill cells with previous values in the same column
+temp_data_1 <- temp_data_1 %>%
+  fill(V3)
+# remove rows containing "TIC"
+temp_data_1 <- temp_data_1 %>% 
+  filter(!str_detect(temp_data_1$V2, "TIC"))
+
+# replace blanck with "NA"
+temp_data_1$V2[temp_data_1$V2==""]<-0
+
+n <- nrow(temp_data_1)
+
+# fill cells with values taken in different column
+for(i in 1:nrow(temp_data_1)) { # for-loop over rows
+  m <- temp_data_1[i,2]
+  if (m =="RTime") {
+    Rtime <- temp_data_1[i,3]
+    i <- i+1
+    q <- temp_data_1[i,2]
+    
+    while (q == "0" & i <= n ) {
+      temp_data_1[i,2] <- Rtime
+      i <- i+1
+      q <- temp_data_1[i,2]
+      }
+  }
+  i <- i+1
+}
+
+# remove rows containing "S"
+temp_data_1 <- temp_data_1 %>% 
+  filter(!str_detect(V1, 'S'))
+
+# remove rows containing "S"
+temp_data_1 <- temp_data_1 %>% 
+  filter(!str_detect(V1, 'I'))
+
+DataHeatMap <- temp_data_1 %>%
+  select(-V1)
+
+names(DataHeatMap)[1] <- "RTime"
+names(DataHeatMap)[2] <- "TIC"
+names(DataHeatMap)[3] <- "Mass"
+names(DataHeatMap)[4] <- "Intensity"
+
+# convert all columns to numeric
+DataHeatMap <- mutate_all(DataHeatMap, function(x) as.numeric(as.character(x)))
+
+# convert the retention time to sec
+DataHeatMap$RTime <- DataHeatMap$RTime *60
+
+# plot figure including all data
+# p <- ggplot(DataHeatMap, aes(RTime, Mass))+
+#   geom_tile(aes(fill = Intensity))
+# show(p)
+
 #########################################################
 ####### filter data according to threshold value  #######
 #########################################################
@@ -46,8 +120,8 @@ for (file in filenameGcData) {
 #######           calculate TIC peak areas        #######
 #########################################################
 
-DataTicRentention <- GcDataCodeOrdered %>%
-  select(RetentionTime, TIC) %>%
+DataTicRentention <- DataHeatMap %>%
+  select(RTime, TIC) %>%
   distinct()
 
 # plot figure including all data
@@ -72,12 +146,12 @@ temp_hyper_0 <- new ("hyperSpec", wavelength = file [,1], spc = t (file [, -1]))
 bl <- spc.rubberband (temp_hyper_0 [,, 185 ~ 3000], noise = 3000, df = 20)
 
 # plot the background to check fit to data
-# plot(bl)
-# plot(temp_hyper_0,add=TRUE)
+plot(bl)
+plot(temp_hyper_0,add=TRUE)
 
 # subtract the background to the original data and plot to check
 temp_hyper_1 <- temp_hyper_0-bl
-# plot(temp_hyper_1, plot.args = list (ylim = c(0, 4500)))
+plot(temp_hyper_1, plot.args = list (ylim = c(0, 4500)))
 
 # export the data in temp folder
 write.txt.long(temp_hyper_1, file = paste0(TempData.dir, "temp.txt"))
@@ -86,29 +160,18 @@ write.txt.long(temp_hyper_1, file = paste0(TempData.dir, "temp.txt"))
 SignalMinusBg <- read.table(file = paste0(TempData.dir, "temp.txt"), sep = "\t", header = TRUE)
 
 names(SignalMinusBg)[1] <- "RTime"
-names(SignalMinusBg)[2] <- "TIC"
+names(SignalMinusBg)[2] <- "TIC-bg"
 
-# determine the position of the peaks: sample and internal standard
-Q <- peaks(SignalMinusBg,minPH=10000, minPW=0.2)
-
-# step size between two retention time
-Step.size <- DataTicRentention$RetentionTime[5] - DataTicRentention$RetentionTime[4]
+temp_data <- full_join(DataTicRentention,SignalMinusBg)
 
 # apply limits to RTime: peak integration boundaries
 ################################################################
 #####             Internal standard Peak Area             ######
 ################################################################
-# Internal standard is first peak on list 
-Q.IS <- top_n(Q,-1,x)
-
-# limits
-Peak.IS.Lmin <- Q.IS$x[1] - (5 * Step.size)
-Peak.IS.Lmax <- Q.IS$x[1] + (10 * Step.size)
-
 PeakIS <- SignalMinusBg %>%
-  filter( between(RTime, Peak.IS.Lmin, Peak.IS.Lmax) )  # 398, 403
+  filter( between(RTime, 400, 405) )
 
-# # plot figure including all data
+# plot figure including all data
 # p <- ggplot(PeakIS, aes(RTime, TIC))+
 #   geom_line()
 # show(p)
@@ -119,27 +182,19 @@ I.S.PA <- sum(diff(PeakIS$RTime[idIS])*rollmean(PeakIS$TIC[idIS],2))
 ################################################################
 #####                 Etizolam Peak Area                  ######
 ################################################################
-# Etizolam is the second peak on list
-Q.Etizolam <- top_n(Q,1,x)
-
-# limits
-Peak.Etizolam.Lmin <- Q.Etizolam$x[1] - (15 * Step.size)
-Peak.Etizolam.Lmax <- Q.Etizolam$x[1] + (21 * Step.size)
-
 PeakEtizolam <- SignalMinusBg %>%
-  filter( between(RTime, Peak.Etizolam.Lmin, Peak.Etizolam.Lmax) )  # 608, 643
+  filter( between(RTime, 645, 670) )
 
-# # plot figure including all data
-# p <- ggplot(PeakIS, aes(RTime, TIC))+
+# plot figure including all data
+# p <- ggplot(PeakEtizolam, aes(RTime, TIC))+
 #   geom_line()
 # show(p)
 
 idEti <- order(PeakEtizolam$RTime)
 PA <- sum(diff(PeakEtizolam$RTime[idEti])*rollmean(PeakEtizolam$TIC[idEti],2))
 
-Results <-data.frame(GcDataName,PA,I.S.PA,Q.IS$x[1],Peak.IS.Lmin,Peak.IS.Lmax,Q.Etizolam$x[1], Peak.Etizolam.Lmin,Peak.Etizolam.Lmax)
+Results <-data.frame(DataName,PA,I.S.PA)
 
-write.table(Results, file=paste0(GcData.dir,sprintf(GcDataName)), sep = ",", row.names = FALSE)
+write.table(Results, file=paste0(GcData.dir,sprintf("%s.csv",DataName)), sep = ",", row.names = FALSE)
 
 }
-

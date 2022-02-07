@@ -1,0 +1,63 @@
+                                        Library Search Report
+
+  Data Path : D:\MassHunter\GCMS\1\data\SPS_Analysis\
+  Data File : 210713024.D                                         
+  Acq On    : 14 Jul 2021  00:31
+  Operator  : CM
+  Sample    : FL21-0366-1
+  Misc      :  
+  ALS Vial  : 13   Sample Multiplier: 1
+
+  Search Libraries:   D:\MassHunter\...CA_IMPURITIES.L  Minimum Quality:   0
+
+  Unknown Spectrum:   Apex
+  Integration Events: ChemStation Integrator - autoint1.e
+
+Pk#     RT  Area%          Library/ID                 Ref#     CAS#   Qual
+_____________________________________________________________________________
+  1   6.889  2.29 D:\MassHunter\Library\ADBBUTINACA_IMPURITIES.L
+                 ADB-BUTINACA Impurity 2                 1 000000-00-0 98
+                 ADB-BUTINACA Impurity 7                12 000000-00-0 72
+                 ADB-BUTINACA Impurity 1                 4 000000-00-0 72
+ 
+  2   7.112  3.03 D:\MassHunter\Library\ADBBUTINACA_IMPURITIES.L
+                 ADB-BUTINACA IMPURITY 4                 2 000000-00-0 99
+                 ADB-BUTINACA Impurity 10               14 000000-00-0 46
+ 
+  3   7.356  0.59 D:\MassHunter\Library\ADBBUTINACA_IMPURITIES.L
+                 ADB-BUTINACA Impurity 7                12 000000-00-0 99
+                 ADB-BUTINACA Impurity 2                 1 000000-00-0 86
+                 ADB-BUTINACA Impurity 5                 6 000000-00-0 45
+ 
+  4   7.476  0.44 D:\MassHunter\Library\ADBBUTINACA_IMPURITIES.L
+                 ADB-BUTINACA Impurity 8                13 000000-00-0 99
+ 
+  5   7.570  1.08 D:\MassHunter\Library\ADBBUTINACA_IMPURITIES.L
+                 ADB-BUTINACA Impurity 10               14 000000-00-0 99
+                 ADB-BUTINACA Impurity 8                13 000000-00-0 14
+ 
+  6   7.917  8.76 D:\MassHunter\Library\ADBBUTINACA_IMPURITIES.L
+                 No matches found
+ 
+  7   8.174  0.33 D:\MassHunter\Library\ADBBUTINACA_IMPURITIES.L
+                 ADB-BUTINACA Impurity 12               15 000000-00-0 99
+                 ADB-BUTINACA Impurity 13                9 000000-00-0 50
+                 ADB-BUTINACA Impurity 8                13 000000-00-0  7
+ 
+  8   8.637  0.47 D:\MassHunter\Library\ADBBUTINACA_IMPURITIES.L
+                 ADB-BUTINACA Impurity 15               10 000000-00-0 99
+                 ADB-BUTINACA Impurity 1                 4 000000-00-0 47
+                 Impurity 1                              3 000000-00-0 47
+ 
+  9   8.762 79.18 D:\MassHunter\Library\ADBBUTINACA_IMPURITIES.L
+                 ADB-BUTINACA Impurity 16 (RT 9.3)      18 000000-00-0 93
+                 ADB-BUTINACA Impurity 18               16 000000-00-0 86
+                 ADB-BUTINACA Impurity 13                9 000000-00-0 32
+ 
+ 10  10.343  3.83 D:\MassHunter\Library\ADBBUTINACA_IMPURITIES.L
+                 ADB-BUTINACA Impurity 18               16 000000-00-0 99
+                 ADB-BUTINACA Impurity 16 (RT 9.3)      18 000000-00-0 87
+                 ADB-BUTINACA Impurity 13                9 000000-00-0 25
+ 
+
+cool_down.m Mon Oct 25 10:14:40 2021   

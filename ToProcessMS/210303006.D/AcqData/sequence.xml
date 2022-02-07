@@ -1,0 +1,58 @@
+﻿<SequenceTableDataSet SchemaVersion="1.0" SequenceComment="" SequenceOperator="CM" SequenceSeqPathFileName="D:\MassHunter\GCMS\1\data\SPS_Analysis\" SequencePreSeqAcqCommand="" SequencePostSeqAcqCommand="" SequencePreSeqDACommand="" SequencePostSeqDACommand="" SequenceReProcessing="False" SequenceInjectBarCodeMismatch="OnBarcodeMismatchInjectAnyway" SequenceOverwriteExistingData="False" SequenceModifiedTimeStamp="">
+  <Sequence>
+    <SequenceID>0</SequenceID>
+    <SampleID>0</SampleID>
+    <AcqMethodFileName>SCRASPLIT20MEOH_12min</AcqMethodFileName>
+    <AcqMethodPathName>D:\MassHunter\GCMS\1\methods\</AcqMethodPathName>
+    <AcqOperator>CM</AcqOperator>
+    <Comment />
+    <Completed>false</Completed>
+    <DAMethodFileName />
+    <DAMethodPathName />
+    <DAReportPathFileName />
+    <DataFileName>210303006</DataFileName>
+    <DataPathName>D:\MassHunter\GCMS\1\data\SPS_Analysis\</DataPathName>
+    <Dilution>1</Dilution>
+    <DualInjector>false</DualInjector>
+    <DualInjectorExpectedBarcode />
+    <DualInjectorVial>6</DualInjectorVial>
+    <DualInjectorVolume>0</DualInjectorVolume>
+    <EquilibrationTime>0</EquilibrationTime>
+    <ExpectedBarcode />
+    <InjectionsPerPosition>1</InjectionsPerPosition>
+    <InjectorVolume>1</InjectorVolume>
+    <InstrumentName>GCMS</InstrumentName>
+    <InstrumentType>SingleQuadrupole</InstrumentType>
+    <Keyword />
+    <KeywordString />
+    <LevelName />
+    <MatrixSpikeGroup />
+    <Locked>false</Locked>
+    <PlateCode />
+    <PlatePosition>0</PlatePosition>
+    <RackCode />
+    <SampleGroup />
+    <SampleInformation />
+    <SampleName>ADB-BUTINACA RM</SampleName>
+    <SamplePosition>dummy</SamplePosition>
+    <SamplePrepFileName />
+    <SamplePrepPathName />
+    <SampleType>Sample</SampleType>
+    <TrayName />
+    <UpdateResponseFactor>None</UpdateResponseFactor>
+    <UpdateRetentionTime>None</UpdateRetentionTime>
+    <UpdateQualifierRatios>None</UpdateQualifierRatios>
+    <UpdateMassAssignments>None</UpdateMassAssignments>
+    <UserDefined />
+    <UserDefined1 />
+    <UserDefined2 />
+    <UserDefined3 />
+    <UserDefined4 />
+    <UserDefined5 />
+    <UserDefined6 />
+    <UserDefined7 />
+    <UserDefined8 />
+    <UserDefined9 />
+    <Vial>6</Vial>
+  </Sequence>
+</SequenceTableDataSet>

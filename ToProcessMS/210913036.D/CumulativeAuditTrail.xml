@@ -1,0 +1,10 @@
+<?xml version="1.0" standalone="yes"?>
+<AuditTrailDataSet xmlns="http://tempuri.org/AuditTrailDataSet.xsd">
+  <AuditTrailEntry>
+    <ID>0</ID>
+    <ComputerName>Analyst-HP</ComputerName>
+    <User>OmniUser</User>
+    <TimeStamp>2021-09-14T17:47:36.5484126+01:00</TimeStamp>
+    <Comment>MassHunter data has been collected and saved to file D:\MassHunter\GCMS\1\data\SPS_Analysis\210913036.D\CumulativeAuditTrail.xml</Comment>
+  </AuditTrailEntry>
+</AuditTrailDataSet>
