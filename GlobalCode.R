@@ -57,6 +57,8 @@ extensionMS1 <- ".ms1"
 
 # where the generated figures are saved, create folder if not existing
 Metadata.dir <- "Metadata/"
+MetadataOutput.dir <- "Metadata/FiguresOutput/"
+
 GcData.dir <- "GcData/"
 HeatMapData <- "HeatMap/"
 TempData.dir <- "TempData/"
@@ -68,6 +70,8 @@ dir.create(file.path(GcDataConvertedRcode.dir),recursive = TRUE) # will create f
 
 Results.dir <- "Results/"
 dir.create(file.path(Results.dir),recursive = TRUE) # will create folder if not already there.
+
+Backup.dir <- "Results/Backup/"
 
 Library.dir <- "Results/Library/"
 dir.create(file.path(Library.dir),recursive = TRUE) # will create folder if not already there.
@@ -94,6 +98,11 @@ angular.vertor <- 0.7
 # m/z accepted precision
 Mass.precision <- 0.2
 
+#smooth.loop <- 10 # number of smmothing repeat applied to the data
+rolling.average <- 3 # value for rolling average
+IS.Exp.Range <- 390  # the retention time Internal Standard is expected at
+Etizolam.Exp.Range <- 612  # the retention time Etizolam is expected at
+
 #############################################################
 #####                       Codes                       #####
 #############################################################
@@ -107,16 +116,11 @@ Mass.precision <- 0.2
 # This only need to be done once per ms1 files and export is saved to a new folder: GcDataConvertedRcode
 source("Code/MsFilesReorganiser.R")
 
-
-
-
-
-
-
+# This code takes the files reordered from the previous code and calculate the areas for the relevant peaks 
 source("Code/AgilentDataHeatmap.R")
 
 # This script use the results of the previous code (or self entered) in GcData and combined it to the metadata
-#source("Code/Metadata.R")
+source("Code/Metadata.R")
 
 # This script produce a heatmap of concentration for a given sample
 #source("Code/SampleHeatmap.R")

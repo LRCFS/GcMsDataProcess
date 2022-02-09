@@ -1,9 +1,0 @@
-
-
-     Compound Name Duplication Report
-
-       Quant Method: D:\MassHunter\GCMS\1\methods\cannabis.m
-Number of Compounds: 0
-
-
-   No Duplicate Names Detected!!!

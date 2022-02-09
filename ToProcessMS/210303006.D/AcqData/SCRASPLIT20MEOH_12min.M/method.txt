@@ -1,7 +1,0 @@
-﻿Additional Information for LV_NPS_Meoh175_230.M
-File created Tue Apr 17 14:23:06 2018
-
-Method : D:\MassHunter\GCMS\1\methods\LV_NPS_Meoh280_230_spl100.M
-Renamed: D:\MassHunter\GCMS\1\methods\LV_NPS_Meoh280_180_spl100.M
-Tue Apr 17 17:52:48 2018
------------------------------------------
