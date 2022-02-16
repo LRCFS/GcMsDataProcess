@@ -11,13 +11,13 @@ for (file in filenameGcData) {
   GcDataName <- gsub(extensionMS1, "", file)
   
   # for testing code on a single file (first on list) in filenameGcDataConverterMs
-  # GcDataName <- gsub(extensionCSV, "", filenameGcData[8])
+  # GcDataName <- gsub(extensionCSV, "", filenameGcData[29])
   
   GcDataName <- gsub(".*/", "", GcDataName)
   File <- GcDataName
   
   # for testing code on a single file (first on list) in filenameGcDataConverterMs
-  # GcDataCodeOrdered <- read.csv2(filenameGcData[8], sep = ",", header = TRUE)
+  # GcDataCodeOrdered <- read.csv2(filenameGcData[29], sep = ",", header = TRUE)
   
   GcDataCodeOrdered <- read.csv2(file, sep = ",", header = TRUE)
   
@@ -52,7 +52,7 @@ DataTicRentention <- GcDataCodeOrdered %>%
   distinct()
 
   DataTicRentention <- DataTicRentention %>%
-    filter(RetentionTime > 350 & RetentionTime < 750)
+    filter(RetentionTime > 365 & RetentionTime < 750)
   
 # # plot figure including all data
 #  p <- ggplot(DataTicRentention, aes(RetentionTime, TIC))+
@@ -157,7 +157,7 @@ DataTicRentention <- GcDataCodeOrdered %>%
    ylim(0,25000) +
    xlim(350,750)
  
- # show(p)
+  # show(p)
   GcDataName <- gsub('.{4}$', '', GcDataName)
  ggsave(
    sprintf("%s_BL.tiff",GcDataName),
@@ -216,6 +216,8 @@ Step.size <- DataTicRentention$RetentionTime[5] - DataTicRentention$RetentionTim
 # Internal standard is first peak on list 
 Q.IS <- top_n(Q,-1,x)
 
+Q.P.IS <- Q.IS[1,1]
+
 Q.IS.testRange <- abs(IS.Exp.Range - Q.IS[1,1])
 
 
@@ -257,9 +259,11 @@ if (Q.IS.testRange < 10) {
 # Etizolam is the second peak on list
 Q.Etizolam <- top_n(Q,1,x)
 
+Q.P.Etizolam <- Q.Etizolam[1,1]
+
 Q.Etizolam.testRange <- abs(Etizolam.Exp.Range - Q.Etizolam[1,1])
 
-if (Q.Etizolam.testRange < 10) {
+if (Q.Etizolam.testRange < 15) {
   # limits
   Peak.Etizolam.Lmin <- Q.Etizolam$x[1] - (15 * Step.size)
   Peak.Etizolam.Lmax <- Q.Etizolam$x[1] + (21 * Step.size)
@@ -300,7 +304,7 @@ if (Q.Etizolam.testRange < 10) {
   # PA.Check2 <- NA
 }
 
-Results <-data.frame(File,I.S.PA,PA)
+Results <-data.frame(File,Q.P.IS,I.S.PA,Q.P.Etizolam,PA)
 
 write.table(Results, file=paste0(GcData.dir,GcDataName,".csv"), sep = ",", row.names = FALSE)
 
