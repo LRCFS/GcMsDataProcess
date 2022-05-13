@@ -80,7 +80,7 @@ p<- ggplot() +
   xlab(bquote("Concentration Etizolam /" ~mu~g%.%mL^{-1})) +
   theme(text = element_text(size = 12))
 
-# show(p)
+#show(p)
 # save figures in output folder in metadata
 filenameMetadata <- gsub('\\..*', '', filenameMetadata)
 filenameMetadata <- gsub('\\//*', '-', filenameMetadata)

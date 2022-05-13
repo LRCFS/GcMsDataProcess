@@ -11,13 +11,13 @@ for (file in filenameGcData) {
   GcDataName <- gsub(extensionMS1, "", file)
   
   # for testing code on a single file (first on list) in filenameGcDataConverterMs
-  # GcDataName <- gsub(extensionCSV, "", filenameGcData[29])
+  #GcDataName <- gsub(extensionCSV, "", filenameGcData[44])
   
   GcDataName <- gsub(".*/", "", GcDataName)
   File <- GcDataName
   
   # for testing code on a single file (first on list) in filenameGcDataConverterMs
-  # GcDataCodeOrdered <- read.csv2(filenameGcData[29], sep = ",", header = TRUE)
+  # GcDataCodeOrdered <- read.csv2(filenameGcData[44], sep = ",", header = TRUE)
   
   GcDataCodeOrdered <- read.csv2(file, sep = ",", header = TRUE)
   
@@ -55,9 +55,13 @@ DataTicRentention <- GcDataCodeOrdered %>%
     filter(RetentionTime > 365 & RetentionTime < 750)
   
 # # plot figure including all data
-#  p <- ggplot(DataTicRentention, aes(RetentionTime, TIC))+
-#    geom_line()+ ylim(0,100000)
-#  show(p)
+  p <- ggplot(DataTicRentention, aes(RetentionTime, TIC))+
+  geom_line() +  #ylim(0,100000) +
+  theme(panel.border = element_blank(),
+  panel.grid.major = element_blank(),
+  panel.grid.minor = element_blank()) +
+  labs (x ="Retention Time (s)", y = "Abundance")
+  show(p)
 
  # smoothDataLowess <- data.frame(lowess(DataTicRentention$RetentionTime,DataTicRentention$TIC, f=0.001))
  # p <- ggplot(smoothDataLowess, aes(x, y))+
@@ -152,7 +156,7 @@ DataTicRentention <- GcDataCodeOrdered %>%
  
  # Plot it
  p <- ggplot(Combined.bc.fillPeak, aes(x=RetentionTime)) +
-   geom_line(aes(y = TIC, colour = "subtracted")) +
+   geom_line(aes(y = TIC, colour = "GC trace")) +
    geom_line(aes(y = BaselineTrend, colour = "baseline")) +
    ylim(0,25000) +
    xlim(350,750)
@@ -216,6 +220,8 @@ Step.size <- DataTicRentention$RetentionTime[5] - DataTicRentention$RetentionTim
 # Internal standard is first peak on list 
 Q.IS <- top_n(Q,-1,x)
 
+# Q.IS <- Q[2,]
+
 Q.P.IS <- Q.IS[1,1]
 
 Q.IS.testRange <- abs(IS.Exp.Range - Q.IS[1,1])
@@ -256,7 +262,7 @@ if (Q.IS.testRange < 10) {
 ################################################################
 #####                 Etizolam Peak Area                  ######
 ################################################################
-# Etizolam is the second peak on list
+# Etizolam is the second peak on list (of the peak of interest), other peaks may be present on that list !!!!
 Q.Etizolam <- top_n(Q,1,x)
 
 Q.P.Etizolam <- Q.Etizolam[1,1]
@@ -306,7 +312,7 @@ if (Q.Etizolam.testRange < 15) {
 
 Results <-data.frame(File,Q.P.IS,I.S.PA,Q.P.Etizolam,PA)
 
-write.table(Results, file=paste0(GcData.dir,GcDataName,".csv"), sep = ",", row.names = FALSE)
+write.table(Results, file=paste0(GcData.dir,GcDataName, ".csv"), sep = ",", row.names = FALSE)
 
 }
 
