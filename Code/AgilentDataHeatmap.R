@@ -11,13 +11,13 @@ for (file in filenameGcData) {
   GcDataName <- gsub(extensionMS1, "", file)
   
   # for testing code on a single file (first on list) in filenameGcDataConverterMs
-  #GcDataName <- gsub(extensionCSV, "", filenameGcData[44])
+  # GcDataName <- gsub(extensionCSV, "", filenameGcData[19])
   
   GcDataName <- gsub(".*/", "", GcDataName)
   File <- GcDataName
   
   # for testing code on a single file (first on list) in filenameGcDataConverterMs
-  # GcDataCodeOrdered <- read.csv2(filenameGcData[44], sep = ",", header = TRUE)
+  # GcDataCodeOrdered <- read.csv2(filenameGcData[19], sep = ",", header = TRUE)
   
   GcDataCodeOrdered <- read.csv2(file, sep = ",", header = TRUE)
   
@@ -61,7 +61,7 @@ DataTicRentention <- GcDataCodeOrdered %>%
   panel.grid.major = element_blank(),
   panel.grid.minor = element_blank()) +
   labs (x ="Retention Time (s)", y = "Abundance")
-  show(p)
+  #show(p)
 
  # smoothDataLowess <- data.frame(lowess(DataTicRentention$RetentionTime,DataTicRentention$TIC, f=0.001))
  # p <- ggplot(smoothDataLowess, aes(x, y))+
@@ -161,7 +161,8 @@ DataTicRentention <- GcDataCodeOrdered %>%
    ylim(0,25000) +
    xlim(350,750)
  
-  # show(p)
+ # show(p)
+ # When running single file don't run line below (skip to ggsave)
   GcDataName <- gsub('.{4}$', '', GcDataName)
  ggsave(
    sprintf("%s_BL.tiff",GcDataName),
@@ -208,7 +209,7 @@ names(SignalMinusBg)[1] <- "RTime"
 names(SignalMinusBg)[2] <- "TIC"
 
 # determine the position of the peaks: sample and internal standard
-Q <- peaks(SignalMinusBg,minPH=99000, minPW=0.2)
+Q <- peaks(SignalMinusBg,minPH=80000, minPW=0.2)
 
 # step size between two retention time
 Step.size <- DataTicRentention$RetentionTime[5] - DataTicRentention$RetentionTime[4]
@@ -220,6 +221,7 @@ Step.size <- DataTicRentention$RetentionTime[5] - DataTicRentention$RetentionTim
 # Internal standard is first peak on list 
 Q.IS <- top_n(Q,-1,x)
 
+# Internal standard is second peak on list 
 # Q.IS <- Q[2,]
 
 Q.P.IS <- Q.IS[1,1]
