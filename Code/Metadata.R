@@ -116,14 +116,14 @@ for (i in 1:nrow(CombinedResults)) {
 }
 
 # to run only for the first time an export needs to be created, to be commented afterward or all saved data will be overwritten.
-# write.table(CombinedResults,file = paste0(Results.dir,"GCMSResults.csv"),  sep = ",", row.names = F)
+#write.table(CombinedResults,file = paste0(Results.dir,"GCMSResultsCardData.csv"),  sep = ",", row.names = F)
 
 # Load already processed data
 filenameData <- list.files(Results.dir, pattern=extensionCSV, full.names=TRUE)
 ProcessedData <- read.csv(filenameData, sep=",", header=TRUE)
 
 ###### Saving an archived copy of the library #####
-filename.date = paste(gsub(":", "-", Sys.time()),"_GCMSResults.csv",sep="")
+filename.date = paste(gsub(":", "-", Sys.time()),"_GCMSResultsValidationData.csv",sep="")
 
 # to write the library to the archive using system date
 write.csv(ProcessedData, file=paste0(Backup.dir,filename.date), row.names = F)
@@ -131,5 +131,5 @@ write.csv(ProcessedData, file=paste0(Backup.dir,filename.date), row.names = F)
 # Combined the existing results to the new one
 CombinedData <- rbind(ProcessedData,CombinedResults)
 
-write.table(CombinedData,file = paste0(Results.dir,"GCMSResults.csv"),  sep = ",", row.names = F)
+write.table(CombinedData,file = paste0(Results.dir,"GCMSResultsValidationData.csv"),  sep = ",", row.names = F)
 

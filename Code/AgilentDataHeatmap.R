@@ -11,13 +11,13 @@ for (file in filenameGcData) {
   GcDataName <- gsub(extensionMS1, "", file)
   
   # for testing code on a single file (first on list) in filenameGcDataConverterMs
-  # GcDataName <- gsub(extensionCSV, "", filenameGcData[19])
+  #GcDataName <- gsub(extensionCSV, "", filenameGcData[17])
   
   GcDataName <- gsub(".*/", "", GcDataName)
   File <- GcDataName
   
   # for testing code on a single file (first on list) in filenameGcDataConverterMs
-  # GcDataCodeOrdered <- read.csv2(filenameGcData[19], sep = ",", header = TRUE)
+  #GcDataCodeOrdered <- read.csv2(filenameGcData[17], sep = ",", header = TRUE)
   
   GcDataCodeOrdered <- read.csv2(file, sep = ",", header = TRUE)
   
@@ -61,7 +61,7 @@ DataTicRentention <- GcDataCodeOrdered %>%
   panel.grid.major = element_blank(),
   panel.grid.minor = element_blank()) +
   labs (x ="Retention Time (s)", y = "Abundance")
-  #show(p)
+  # show(p)
 
  # smoothDataLowess <- data.frame(lowess(DataTicRentention$RetentionTime,DataTicRentention$TIC, f=0.001))
  # p <- ggplot(smoothDataLowess, aes(x, y))+
@@ -265,6 +265,8 @@ if (Q.IS.testRange < 10) {
 #####                 Etizolam Peak Area                  ######
 ################################################################
 # Etizolam is the second peak on list (of the peak of interest), other peaks may be present on that list !!!!
+
+##If you need to remove rows#Q <- as.data.frame(Q[-c(3), ])
 Q.Etizolam <- top_n(Q,1,x)
 
 Q.P.Etizolam <- Q.Etizolam[1,1]

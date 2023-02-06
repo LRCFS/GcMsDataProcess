@@ -100,8 +100,8 @@ Mass.precision <- 0.2
 
 #smooth.loop <- 10 # number of smmothing repeat applied to the data
 rolling.average <- 3 # value for rolling average
-IS.Exp.Range <- 390  # the retention time Internal Standard is expected at
-Etizolam.Exp.Range <- 603  # the retention time Etizolam is expected at
+IS.Exp.Range <- 385  # the retention time Internal Standard is expected at
+Etizolam.Exp.Range <- 590  # the retention time Etizolam is expected at
 
 #############################################################
 #####                       Codes                       #####
