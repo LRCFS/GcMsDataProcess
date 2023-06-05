@@ -11,13 +11,13 @@ for (file in filenameGcData) {
   GcDataName <- gsub(extensionMS1, "", file)
   
   # for testing code on a single file (first on list) in filenameGcDataConverterMs
-  #GcDataName <- gsub(extensionCSV, "", filenameGcData[2])
+  #GcDataName <- gsub(extensionCSV, "", filenameGcData[14])
   
   GcDataName <- gsub(".*/", "", GcDataName)
   File <- GcDataName
   
   # for testing code on a single file (first on list) in filenameGcDataConverterMs
-  #GcDataCodeOrdered <- read.csv2(filenameGcData[2], sep = ",", header = TRUE)
+  #GcDataCodeOrdered <- read.csv2(filenameGcData[14], sep = ",", header = TRUE)
   
   GcDataCodeOrdered <- read.csv2(file, sep = ",", header = TRUE)
   
@@ -209,7 +209,7 @@ names(SignalMinusBg)[1] <- "RTime"
 names(SignalMinusBg)[2] <- "TIC"
 
 # determine the position of the peaks: sample and internal standard
-Q <- peaks(SignalMinusBg,minPH=8000, minPW=0.2)
+Q <- peaks(SignalMinusBg,minPH=80000, minPW=0.2)
 
 # step size between two retention time
 Step.size <- DataTicRentention$RetentionTime[5] - DataTicRentention$RetentionTime[4]
