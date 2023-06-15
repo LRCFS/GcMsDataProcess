@@ -70,6 +70,6 @@ coul = colorRampPalette(brewer.pal(9,"YlOrRd"))(6)
 
 #Make Heat Map
 
-png(filename="Fig7-ConcentrationMapping/Fig7-Concentration_Mapping.png",units="in",width=12,height=9,res=300)
+png(filename="Fig7-Map-Code-Output/Fig7-Concentration_Mapping.png",units="in",width=12,height=9,res=300)
 heatmap.2(x=Map2,col=c(coul),Rowv=NULL,Colv=NULL, trace="none",density.info="none")
 dev.off()
