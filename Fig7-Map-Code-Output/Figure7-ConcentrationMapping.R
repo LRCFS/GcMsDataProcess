@@ -53,7 +53,7 @@ library(gplots)
 ##################
 
 #Import Data as Matrix
-Map <- as.matrix(read_xlsx("Fig7-ConcentrationMapping/ConcentrationMapping_Metadata.xlsx", col_names=FALSE))
+Map <- as.matrix(read_xlsx("Fig7-Map-Code-Output/ConcentrationMapping_Metadata.xlsx", col_names=FALSE))
 Map
 
 Map<- as.data.frame(Map[-c(1), ])
