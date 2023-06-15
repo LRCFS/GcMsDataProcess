@@ -85,7 +85,7 @@ dir.create(file.path(GcData.dir),recursive = TRUE) # will create folder if not a
  
 # This is for the code for processing the data
 Metadata.dir <- "Metadata/"
-MetadataOutput.dir <- "Metadata/FiguresOutput/"
+MetadataOutput.dir <- "Results/FiguresOutput/"
 dir.create(file.path(MetadataOutput.dir),recursive = TRUE) # will create folder if not already there.
 
 Results.dir <- "Results/"

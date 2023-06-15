@@ -117,6 +117,10 @@ for (i in 1:nrow(CombinedResults)) {
 filename_data <- paste0(Results.dir,'GCMSResultsCardData.csv')
 
 if(file.exists(filename_data)){
+  
+  # read file
+  ProcessedData <- read.csv(filename_data)
+  
   ###### Saving an archived copy of the library #####
   filename.date = paste(gsub(":", "-", Sys.time()),"_GCMSResults.csv",sep="")
   
