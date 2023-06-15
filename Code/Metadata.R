@@ -30,12 +30,6 @@ CombinedResults <- full_join(Metadata,GcResults)
 # peak area ratios
 CombinedResults$ratio <- CombinedResults$PA/CombinedResults$I.S.PA
 
-# CombinedResults$EtizolamPeakCheck <- (CombinedResults$PA.Check - CombinedResults$PA) / CombinedResults$PA.Check * 100
-# 
-# CombinedResults$EtizolamPeakCheck2 <- (CombinedResults$PA.Check2 - CombinedResults$PA.Check) / CombinedResults$PA.Check2 * 100
-# 
-# CombinedResults$ISPeakCheck <- (CombinedResults$I.S.PA.Check - CombinedResults$I.S.PA) / CombinedResults$I.S.PA.Check * 100
-
 # calibration range
 calibration <- c("25","50","75","100","150","200","250")
 #convert to a dataframe
@@ -80,7 +74,7 @@ p<- ggplot() +
   xlab(bquote("Concentration Etizolam /" ~mu~g%.%mL^{-1})) +
   theme(text = element_text(size = 12))
 
-# show(p)
+ show(p)
 # save figures in output folder in metadata
 filenameMetadata <- gsub('\\..*', '', filenameMetadata)
 filenameMetadata <- gsub('\\//*', '-', filenameMetadata)
@@ -115,21 +109,26 @@ for (i in 1:nrow(CombinedResults)) {
   
 }
 
-# to run only for the first time an export needs to be created, to be commented afterward or all saved data will be overwritten.
-#write.table(CombinedResults,file = paste0(Results.dir,"GCMSResultsCardData.csv"),  sep = ",", row.names = F)
+# This is to create the export of the results
+# If previous series of data already exists, an archive copy will be saved and
+# the new data file including the latest results will be created
 
-# Load already processed data
-filenameData <- list.files(Results.dir, pattern=extensionCSV, full.names=TRUE)
-ProcessedData <- read.csv(filenameData, sep=",", header=TRUE)
+# file to check if it is present in the designated folder
+filename_data <- paste0(Results.dir,'GCMSResultsCardData.csv')
 
-###### Saving an archived copy of the library #####
-filename.date = paste(gsub(":", "-", Sys.time()),"_GCMSResults.csv",sep="")
+if(file.exists(filename_data)){
+  ###### Saving an archived copy of the library #####
+  filename.date = paste(gsub(":", "-", Sys.time()),"_GCMSResults.csv",sep="")
+  
+  # to write the archive using system date
+  write.csv(ProcessedData, file=paste0(Backup.dir,filename.date), row.names = F)
+  
+  # Combined the existing results to the new one
+  CombinedData <- rbind(ProcessedData,CombinedResults)
+  
+  write.table(CombinedData,file = paste0(Results.dir,"GCMSResultsCardData.csv"),  sep = ",", row.names = F)
+  } else {
+    write.table(CombinedResults,file = paste0(Results.dir,"GCMSResultsCardData.csv"),  sep = ",", row.names = F)
+    }
 
-# to write the library to the archive using system date
-write.csv(ProcessedData, file=paste0(Backup.dir,filename.date), row.names = F)
-
-# Combined the existing results to the new one
-CombinedData <- rbind(ProcessedData,CombinedResults)
-
-write.table(CombinedData,file = paste0(Results.dir,"GCMSResults.csv"),  sep = ",", row.names = F)
-
+print("Processing complete. Please check 'Results' folder for output")
